@@ -26,8 +26,9 @@ SERVER_PORT = "10000"
 MEM_FREE_FILE = "mem_free.txt"
 CAPTURE_FILE = "capture.txt"
 SERVER_FILE = "FancyTCPServer.py"
-FIG_NAME = "gg.png"
 
+PI_MEM_CMD = "rm -f mem_free.txt; while true; do echo $(echo -n $(python -c 'import time; print time.time()'); " \
+             "echo -n ','; free | grep -i mem | awk '{print $3;}') >> mem_free.txt; sleep 0.1; done & echo $!"
 SYNFLOOD_CMD = f"msfconsole -x 'use auxiliary/dos/tcp/synflood; set RHOSTS {PI_IP}; set RPORT {SERVER_PORT}; run' &"
 CAPTURE_CMD = f"tshark -i wlan0 -f tcp > {CAPTURE_FILE}"
 SERVER_CMD = f"python3 {SERVER_FILE} </dev/null >/dev/null"
@@ -63,6 +64,24 @@ def start_pi_server():
 def kill_pi_server():
     ssh = ssh_to_pi()
     ssh.exec_command(KILL_SERVER_CMD)
+    ssh.close()
+
+
+def start_pi_mem_loop():
+    ssh = ssh_to_pi()
+    _, ssh_stdout, _ = ssh.exec_command(PI_MEM_CMD)
+    time.sleep(0.5)
+    ssh.close()
+    return ssh_stdout.read().decode().strip()
+
+
+def kill_pi_mem_loop(pid):
+    ssh = ssh_to_pi()
+    ssh.exec_command(f"kill {pid}")
+    time.sleep(0.5)
+    sftp = ssh.open_sftp()
+    sftp.get(os.path.join(HOME, PI_USERNAME, MEM_FREE_FILE), os.path.join(os.getcwd(), MEM_FREE_FILE))
+    sftp.close()
     ssh.close()
 
 
