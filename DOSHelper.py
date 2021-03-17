@@ -108,21 +108,45 @@ def kill_attack():
     ssh.close()
 
 
-def start_pi_packet_capture(cmd=CAPTURE_CMD):
-    ssh = ssh_to_pi()
+def start_packet_capture(device="pi", cmd=CAPTURE_CMD):
+    if device not in ["pi", "kali"]:
+        raise NotImplementedError("Only support pi and kali for start_packet_capture")
+
+    if device == "pi":
+        ssh = ssh_to_pi()
+    else:
+        ssh = ssh_to_kali()
+
     ssh_stdin, _, _ = ssh.exec_command('su')
     time.sleep(0.1)  # some environment maybe need this.
-    ssh_stdin.write(f"{PI_ROOT_PASSWORD}\n")
+
+    if device == "pi":
+        ssh_stdin.write(f"{PI_ROOT_PASSWORD}\n")
+    else:
+        ssh_stdin.write(f"{KALI_ROOT_PASSWORD}\n")
+
     ssh_stdin.write(f"{cmd}\n")
     time.sleep(0.5)
     ssh.close()
 
 
-def kill_pi_packet_capture():
-    ssh = ssh_to_pi()
+def kill_packet_capture(device="pi"):
+    if device not in ["pi", "kali"]:
+        raise NotImplementedError("Only support pi and kali for start_packet_capture")
+
+    if device == "pi":
+        ssh = ssh_to_pi()
+    else:
+        ssh = ssh_to_kali()
+
     ssh_stdin, _, _ = ssh.exec_command('su')
     time.sleep(0.1)  # some environment maybe need this.
-    ssh_stdin.write(f"{PI_ROOT_PASSWORD}\n")
+
+    if device == "pi":
+        ssh_stdin.write(f"{PI_ROOT_PASSWORD}\n")
+    else:
+        ssh_stdin.write(f"{KALI_ROOT_PASSWORD}\n")
+
     ssh_stdin.write(f"{KILL_CAPTURE_CMD}\n")
     sftp = ssh.open_sftp()
     sftp.get(os.path.join(HOME, PI_USERNAME, CAPTURE_FILE), os.path.join(os.getcwd(), CAPTURE_FILE))
