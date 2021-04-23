@@ -4,3 +4,5 @@ __pycache__/
 *.png
 *.txt
 DOSHelperConfig.ini
+*.csv
+*.model
