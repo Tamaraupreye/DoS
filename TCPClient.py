@@ -9,14 +9,15 @@ SEND_STRING = 'aaaaaaaaaa'.encode("utf-8")
 NUM_PACKETS_TO_SEND = 500000
 
 
-def send_packet():
+def send_packet(string=SEND_STRING):
     with socket(AF_INET, SOCK_STREAM) as s:
         s.settimeout(3)
         start = time.time()
         s.connect((HOST, PORT))
-        s.sendall(SEND_STRING)
+        s.sendall(string)
+        print(f"echoing {string} to {HOST}")
         data = s.recv(1024)
-    return time.time() - start
+    # return time.time() - start
 
 
 def send_multiple_packets(num):
@@ -37,6 +38,3 @@ def send_multiple_packets(num):
 if __name__ == "__main__":
     for _ in range(NUM_PACKETS_TO_SEND):
         send_packet()
-
-# if __name__ == "__main__":
-#     send_multiple_packets(NUM_PACKETS_TO_SEND)
