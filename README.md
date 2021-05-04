@@ -3,12 +3,16 @@ This is a Python repository with all the files for the detection Denial of Servi
 network.
 
 ## Getting Started
+- Have a Raspberry Pi connected to your network
+- Have Kali Linux running in a virtual machine with bridged networking and connected to your device
 
 ## What each file does
 #### DOSHelper.py
 This is a Python script that contains methods for connecting to via SSH, running commands on, and moving files to and 
 from both the Raspberry Pi and Linux Kali. It also has commands for easily starting and stopping DOS attacks, launching 
-countermeasures and starting or stopping Python programs on the Pi. Needs DOSHelperConfig.ini to work.
+countermeasures and starting or stopping Python programs on the Pi. Needs DOSHelperConfig.ini to work. It creates files 
+called pi_logs and kali_logs on the respective devices to give an idea of what errors might have occurred when running 
+the server or Metasploit attacks.
 
 #### DOSHelperConfigExample.ini
 This is an example of a configuration file that holds the IP address, username and passwords for both the Raspberry 
