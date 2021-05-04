@@ -84,12 +84,13 @@ def analyse_packets(capture, ml):
 
     classification = ml.predict([[syn_ack_ratio, icmp, dns_ratio]])[0]
     if classification == 1:
-        return 1
-    return 0
-    # elif classification == 2:
-    #     print(f"{FAIL}ICMP flood detected{RESET}")
-    # elif classification == 3:
-    #     print(f"{FAIL}DNS amplification detected{RESET}")
+        print(f"{FAIL}SYN flood detected{RESET}")
+    elif classification == 2:
+        print(f"{FAIL}ICMP flood detected{RESET}")
+    elif classification == 3:
+        print(f"{FAIL}DNS amplification detected{RESET}")
+    else:
+        print("Nothing happening")
 
 
 if __name__ == "__main__":
@@ -102,13 +103,3 @@ if __name__ == "__main__":
             subprocess.run(cmd, stdout=f, stderr=subprocess.DEVNULL)
         with open(os.path.expanduser(os.path.join("~", "capture.txt")), 'r') as f:
             synflood = analyse_packets(f.readlines(), ml)
-            if int(synflood):
-                print(f"{FAIL}SYN flood detected{RESET}")
-                if not was_synflood:
-                    print(f"Countermeasure: Increasing backlog to 8192")
-                was_synflood = True
-            else:
-                print(f"Nothing happening")
-                if was_synflood:
-                    print(f"Reducing backlog back to 128")
-                was_synflood = False

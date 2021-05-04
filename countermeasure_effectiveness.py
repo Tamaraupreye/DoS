@@ -23,6 +23,7 @@ BREAK_BETWEEN_RUNS = 6  # in minutes
 
 
 def normal_client_loop():
+    # a loop that keeps sending packets to the server until it fails
     global failed
     global done
     while not done:
@@ -35,6 +36,7 @@ def normal_client_loop():
 
 
 def process_capture():
+    # a function to read a tshark capture file from Kali Linux and find the strength of the attack in packets/second
     cap_file = os.path.join(os.getcwd(), CAPTURE_FILE)
     count = 0
     start_found = False
@@ -59,6 +61,7 @@ def process_capture():
 
 
 def test():
+    # function to start server, launch attack and measure time for server to fail
     global failed
     global done
     done = False
@@ -101,6 +104,7 @@ def test():
 
 
 def run_test_multiple(n):
+    # wrapper to run test multiple times
     for _ in range(n):
         t = test()
         if t == -1:
@@ -113,6 +117,7 @@ def run_test_multiple(n):
 
 
 if __name__ == "__main__":
+    # aloows to run test with given parameter
     val = ""
     while val != "q":
         reset_all_measures()
@@ -120,6 +125,7 @@ if __name__ == "__main__":
         exec(f"change_{val.split(':')[0]}({val.split(':')[1]})")
         run_test_multiple(3)
 
+    # # uncomment this to run loops for multiple parameters at once
     # reset_all_measures()
     #
     # backlog = 128

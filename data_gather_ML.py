@@ -30,6 +30,7 @@ ALL_CHARS = string.ascii_letters + string.digits + string.punctuation
 
 
 def normal_client_loop():
+    # loop to randomly send random messages to the server for random periods
     while not done:
         if random.randint(0, 1) == 1:
             s = time.time()
@@ -50,6 +51,7 @@ def normal_client_loop():
 
 
 def random_traffic_loop():
+    # loop to randomly generate network traffic by accessing random websites on the pi
     global done
     while not done:
         if random.randint(0, 5) > 1:
@@ -61,8 +63,9 @@ def random_traffic_loop():
 
 
 if __name__ == "__main__":
+    # start the python data gathering script on Pi, randomly launch attacks for test_duration, get csv file at the end
     put_file("pi", GATHER_PI_SCRIPT)
-    run_cmd("pi", f"python3 {DETECT_FILE}")
+    run_cmd("pi", f"python3 {GATHER_PI_SCRIPT}")
 
     done = False
 

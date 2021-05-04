@@ -10,6 +10,7 @@ import paramiko
 import configparser
 
 
+# read config file to get IP addresses, usernames and passwords
 config = configparser.ConfigParser()
 config.read('DOSHelperConfig.ini')
 
@@ -55,6 +56,7 @@ KILL_CAPTURE_CMD = "killall tshark"
 
 
 def _ssh_to(device):
+    # function to ssh connect to a device with paramiko and return the connection. Device can be "pi" or "kali"
     if device not in ["pi", "kali"]:
         raise NotImplementedError("Only support pi and kali")
     ssh = paramiko.SSHClient()
@@ -81,6 +83,7 @@ def _ssh_to(device):
 
 
 def run_cmd(device, cmd, output=False):
+    # function to run command on device and get the output is function has output
     ssh = _ssh_to(device)
     _, ssh_stdout, _ = ssh.exec_command(cmd)
     time.sleep(0.5)  # allow cmd execute
@@ -90,6 +93,7 @@ def run_cmd(device, cmd, output=False):
 
 
 def run_cmd_as_root(device, cmd):
+    # function to run commands on device as root
     ssh = _ssh_to(device)
 
     ssh_stdin, _, _ = ssh.exec_command('su')
@@ -106,6 +110,7 @@ def run_cmd_as_root(device, cmd):
 
 
 def put_file(device, filename):
+    # put a file from this current folder to the home folder on device
     ssh = _ssh_to(device)
     sftp = ssh.open_sftp()
 
@@ -119,6 +124,7 @@ def put_file(device, filename):
 
 
 def get_file(device, filename):
+    # get a file from the home folder on device to this current folder
     ssh = _ssh_to(device)
     sftp = ssh.open_sftp()
 
@@ -132,74 +138,91 @@ def get_file(device, filename):
 
 
 def kill_process_with_pid(device, pid):
+    # stops a process on a device if you have the process id
     run_cmd(device, f"kill {pid}")
 
 
 def start_pi_server():
+    # moves SERVER_FILE to the Raspberry Pi and runs it
     put_file("pi", SERVER_FILE)
     run_cmd("pi", SERVER_CMD)
 
 
 def kill_pi_server():
+    # kills running Python Server on raspberry pi
     run_cmd("pi", KILL_SERVER_CMD)
     time.sleep(60)  # wait for Pi server to die
 
 
 def start_pi_mem_loop():
+    # start a loop on pi to monitor memory usage
     return run_cmd("pi", PI_MEM_CMD, True)
 
 
 def kill_pi_mem_loop(pid):
+    # kills loop on pi that was monitoring mem usage and get the output file
     kill_process_with_pid("pi", pid)
     get_file("pi", MEM_FREE_FILE)
 
 
 def start_synflood():
+    # use Metasploit on Kali to launch SYN flood attack against Pi
     run_cmd_as_root("kali", SYNFLOOD_CMD)
 
 
 def start_icmpflood():
+    # use Metasploit on Kali to launch ICMP flood attack against Pi
     run_cmd_as_root("kali", ICMPFLOOD_CMD)
 
 
 def start_dns_amp():
+    # use Metasploit on Kali to launch DNS amplification attack against Pi
     run_cmd_as_root("kali", DNSAMP_CMD)
 
 
 def kill_synflood():
+    # stop SYN flood attack running through Metasploit on Kali Linux
     run_cmd_as_root("kali", KILL_SYNFLOOD_CMD)
 
 
 def kill_icmpflood():
+    # stop ICMP flood attack running through Metasploit on Kali Linux
     run_cmd_as_root("kali", KILL_ICMPFLOOD_CMD)
 
 
 def kill_dns_amp():
+    # stop DNS amplification attack running through Metasploit on Kali Linux
     run_cmd_as_root("kali", KILL_DNS_AMP_CMD)
 
 
 def start_packet_capture(device, cmd=CAPTURE_CMD):
+    # start a tshark packet capture on the device with a tshark command
     run_cmd_as_root(device, cmd)
 
 
 def kill_packet_capture(device):
+    # kill tshark processes running on device
     run_cmd_as_root(device, KILL_CAPTURE_CMD)
     get_file(device, CAPTURE_FILE)
 
 
 def change_backlog(val=128):
+    # change the SYN backlog value on Pi as a DOS countermeasure
     run_cmd_as_root("pi", f"echo {val} > {BACKLOG}")
 
 
 def change_timer(val=5):
+    # change the SYNACK retries value on Pi as a DOS countermeasure
     run_cmd_as_root("pi", f"echo {val} > {TIMER}")
 
 
 def change_cookies(val=1):
+    # change the SYN cookies value on Pi as a DOS countermeasure
     run_cmd_as_root("pi", f"echo {val} > {COOKIES}")
 
 
 def reset_all_measures():
+    # reset all DOS countermeasures to their default values
     change_backlog()
     change_timer()
     change_cookies()
@@ -207,6 +230,7 @@ def reset_all_measures():
 
 # noinspection PyBroadException
 def setup():
+    # remove old log files on devices (pi and kali) if possible
     try:
         run_cmd("pi", "rm pi_logs")
     except Exception:

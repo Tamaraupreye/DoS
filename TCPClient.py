@@ -15,9 +15,9 @@ def send_packet(string=SEND_STRING):
         start = time.time()
         s.connect((HOST, PORT))
         s.sendall(string)
-        print(f"echoing {string} to {HOST}")
+        # print(f"echoing {string} to {HOST}")
         data = s.recv(1024)
-    # return time.time() - start
+    return time.time() - start
 
 
 def send_multiple_packets(num):

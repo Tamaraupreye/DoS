@@ -43,6 +43,7 @@ def is_incoming_dns(line):
 
 
 def analyse_packets(capture):
+    # calculate features (SYN/ACK ratio, ICMP count, out/in DNS ratio) from capture file and append to output csv file
     ack = 0
     syn = 1
     incoming_dns = 0
@@ -90,11 +91,13 @@ def analyse_packets(capture):
 
 
 if __name__ == "__main__":
+    # clean command to be run with subprocess
     cmd = CAPTURE_COMMAND.split("'")
     cmd = cmd[0].strip(" ").split(" ") + [cmd[1]] + cmd[2].strip(" ").split(" ")
     with open(os.path.expanduser(os.path.join("~", DETECT_FILE)), 'w') as data:
         data.write("SYN-ACK_Ratio,ICMP_Count,DNS_Ratio,Attack\n")
     while True:
+        # run command in 15 second bursts then process output
         with open(os.path.expanduser(os.path.join("~", CAPTURE_FILE)), 'w') as f:
             subprocess.run(cmd, stdout=f, stderr=subprocess.DEVNULL)
         with open(os.path.expanduser(os.path.join("~", CAPTURE_FILE)), 'r') as f:

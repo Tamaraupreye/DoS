@@ -22,6 +22,7 @@ RUN_TIME = 1800
 
 
 def process_capture_file():
+    # read tshark capture file and get arrays with the synflood packets and time sent
     cap_file = os.path.join(os.getcwd(), CAPTURE_FILE)
     with open(cap_file, "r") as f:
         all_info = [l.strip().split(",") for l in f.readlines()[:-1] if l.strip().split(",")[2] == PI_IP]
@@ -31,6 +32,7 @@ def process_capture_file():
 
 
 def process_mem_file():
+    # read mem file to get array of mem usage of Pi and time measurement was taken
     mem_file = os.path.join(os.getcwd(), MEM_FREE_FILE)
     mem_arr = []
     t_arr = []
@@ -43,6 +45,7 @@ def process_mem_file():
 
 
 def normal_client_loop(t_sent_arr, rtt_arr):
+    # loop to send packets to server and get the response time
     start = time.time()
     while time.time() - start < RUN_TIME:
         try:
@@ -55,6 +58,7 @@ def normal_client_loop(t_sent_arr, rtt_arr):
 
 
 if __name__ == "__main__":
+    # start server, launch attack, run the test for some time and plot graphs
     pi_mem_pid = start_pi_mem_loop()
 
     start_pi_server()
@@ -85,16 +89,19 @@ if __name__ == "__main__":
     plt.style.use('dark_background')
     plt.figure(figsize=(14, 7))
 
+    # graph for Pi mem usage
     plt.subplot(311)
     plt.xlim((0, max_time - min_time))
     plt.plot([t - min_time for t in t_arr], mem_arr)
     plt.ylabel("Pi Mem Used (kB)")
 
+    # graph for server response time
     plt.subplot(312)
     plt.xlim((0, max_time - min_time))
     plt.plot([t - min_time for t in t_sent_arr], rtt_arr)
     plt.ylabel("Response Time (s)")
 
+    # graph for total packets sent at time
     plt.subplot(313)
     plt.xlim((0, max_time - min_time))
     plt.plot([t - min_time for t in t_packets_arr], [i for i in range(1, len(t_packets_arr)+1)])
@@ -104,6 +111,7 @@ if __name__ == "__main__":
 
     plt.savefig(FIG_NAME)
 
+    # histogram to see distribution of response times
     plt.figure(figsize=(14, 7))
 
     plt.hist(rtt_arr, bins=1200, density=True)
