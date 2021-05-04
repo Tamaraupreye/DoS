@@ -2,6 +2,7 @@ import configparser
 import socket
 import threading
 import time
+import os
 
 from DOSHelper import *
 from TCPClient import send_packet
