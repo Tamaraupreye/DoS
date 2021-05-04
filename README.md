@@ -81,4 +81,35 @@ countermeasures by looking at the time for the server to fail before and after c
 involve tweaking Linux network parameters on the Pi in /proc/sys/net/ipv4/ like tcp_max_syn_backlog, tcp_synack_retries 
 and tcp_syncookies.
 
-## Presentation Links
+## Presentations and Other Links
+[Metasploit Papers Studied](https://docs.google.com/document/d/1Sd_XhUCxBlOBOSzk6Z6ccgIeXhrHkL4AJ0olEWfULUo/edit?usp=sharing)
+
+[Senior Design - Problem Statement](https://docs.google.com/document/d/1n68xlGU07YywAXPMpGL9K9J7cIQCQpe-tUON4wUxJKA/edit?usp=sharing)
+
+[Senior Design - Design Requirements](https://docs.google.com/document/d/11PZTF6T4nRYcmjH9g7pVdV5uYIuQJupTRRH3lbEDiRk/edit?usp=sharing)
+
+[Senior Design - Solution Presentation](https://docs.google.com/presentation/d/1ApbwHlydDVmaIVRZS7plRsq4RrU3ooM9OdxMwKhfc3w/edit?usp=sharing)
+
+[Piece 1 Presentation - Data Collection](https://docs.google.com/presentation/d/1mKphcvQVs0ok8ns6mK9W09MdRgneyQtL6CPaE-UVw5Y/edit?usp=sharing)
+
+[Piece 2 Presentation - Attack Detection](https://docs.google.com/presentation/d/13ygdzMmrBmUFGAKHZAc10L8srjsGTzwtOwnmus6O680/edit?usp=sharing)
+
+[Piece 3 Presentation - Countermeasure](https://docs.google.com/presentation/d/1jP_rdIB-iN-vlTIcU2YNslPypVZTzVUfndWoRcrWQ0M/edit?usp=sharing)
+
+[Senior Design - Final Presentation](https://docs.google.com/presentation/d/1t_H_K-v-8I31KZfuFfJh7FZYYhdAOQn04tfZ_T3IKuY/edit?usp=sharing)
+
+[Senior Design - Final Report](https://docs.google.com/document/d/1Y_cFyYR6SnNvX_YbckHAZmpKns3R7UMmvtzyH3gNX2E/edit?usp=sharing)
+
+[DOS Impact Measurement](https://www.icloud.com/keynote/0axCr2n-09wst-mgWIHXdlCIQ#Presentation_-_DoS)
+
+[DOS - SYN/ACK Ratio and Countermeasures](https://www.icloud.com/keynote/0RPbEsIs8xZSe_dJ5RAjfZOvg#Syn/Ack_Ratio_and_Countermeasures)
+
+[DOS New Attacks Part 1](https://www.icloud.com/keynote/0S_VHjrfjrDveqEu6uKwDbXaQ#DoS-New_Attacks)
+
+[DOS New Attacks Part 2](https://www.icloud.com/keynote/0T_JdIeMiv_uO2leGQ8IxucSQ#DoS-New_Attacks_2)
+
+[DOS Countermeasures Part 2](https://docs.google.com/presentation/d/1Z6aMIc22ubzjIT2B27D0LLkT7iZgTZ5Z6YFbaieXxiE/edit?usp=sharing)
+
+[DOS Countermeasures Part 3](https://docs.google.com/presentation/d/1fXBzW1EU2hTPIAIfGCYmLh48Pu6eSPXCIVgQHw6FOu0/edit?usp=sharing)
+
+[ML for DOS Detection](https://docs.google.com/presentation/d/1nWV9f80kWP1sVxlE3IzAffERHyvJGTk2GZ-x_XfT3wY/edit?usp=sharing)
