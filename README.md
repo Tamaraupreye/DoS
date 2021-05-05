@@ -5,6 +5,7 @@ network.
 ## Getting Started
 - Have a Raspberry Pi connected to your network
 - Have Kali Linux running in a virtual machine with bridged networking and connected to your device
+- Learn how to use Metasploit Framework in Kali Linux
 
 ## What each file does
 #### DOSHelper.py
@@ -84,6 +85,23 @@ This is a Python script that runs on the host's computer and tries to measure th
 countermeasures by looking at the time for the server to fail before and after countermeasures. The countermeasures 
 involve tweaking Linux network parameters on the Pi in /proc/sys/net/ipv4/ like tcp_max_syn_backlog, tcp_synack_retries 
 and tcp_syncookies.
+
+#### ReverseTCP/reverseTCP_datacollection.py
+This is a Python script that runs on the Raspberry Pi. It gathers data about CPU utilization and memory utilization of 
+the Raspberry Pi using Python's psutil module while a ReverseTCP attack is occurring and under normal conditions and 
+writes that to a csv file. The attack is launched by running a payload generated with msfvenom, a Metasploit tool. Some 
+information about making a payload can be found 
+[here](https://www.offensive-security.com/metasploit-unleashed/msfvenom/)
+
+#### ReverseTCP/KNN.ipynb
+This is a Jupyter notebook that uses the data gathered above to train Machine Learning models for detecting Reverse TCP 
+attacks using k-Nearest Neighbours. It also includes some helpful visualizations for the data and the accuracy of the 
+model.
+
+#### ReverseTCP/RandomForest.ipynb
+This is a Jupyter notebook that uses the data gathered above to train Machine Learning models for detecting Reverse TCP 
+attacks using Random Forest. It also includes some helpful visualizations for the data and the accuracy of the 
+model.
 
 ## Presentations and Other Links
 [Metasploit Papers Studied](https://docs.google.com/document/d/1Sd_XhUCxBlOBOSzk6Z6ccgIeXhrHkL4AJ0olEWfULUo/edit?usp=sharing)
