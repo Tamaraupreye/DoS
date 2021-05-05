@@ -8,6 +8,7 @@ network.
 - Learn how to use Metasploit Framework in Kali Linux
 
 ## What each file does
+### Setup
 #### DOSHelper.py
 This is a Python script that contains methods for connecting to via SSH, running commands on, and moving files to and 
 from both the Raspberry Pi and Linux Kali. It also has commands for easily starting and stopping DOS attacks, launching 
@@ -19,6 +20,7 @@ the server or Metasploit attacks.
 This is an example of a configuration file that holds the IP address, username and passwords for both the Raspberry 
 Pi. Use this example to make a DOSHelperConfig.ini file with your own information.
 
+### New Metasploit DOS Attacks
 #### dnsamp.rb
 This is a Ruby Script that uses the Metasploit framework to launch a DNS amplification
 attack against a victim. Can be added to Metasploit framework on Kali Linux by moving this
@@ -29,6 +31,7 @@ This is a Ruby Script that uses the Metasploit framework to launch an ICMP flood
 attack against a victim. Can be added to Metasploit framework on Kali Linux by moving this
 file to /usr/share/metasploit-framework/modules/auxiliary/dos/
 
+### Server and Client Files
 #### TCPServer.py
 This is a Python Script intended to run on the Raspberry Pi. It uses the socket module to create an echo server
 that listens for connections and replies with the same message. This is the sever that is attacked during the project.
@@ -44,6 +47,7 @@ This is a modification of the TCPServer.py that uses the Python selector module 
 #### FancyTCPClient.py
 This is a modification of the TCPClient.py that uses the Python selector module for robustness.
 
+### DOS Detection with ML
 #### data_gather_ML.py
 This is a Python script intended to be run on the host's computer for gathering training data for detecting DOS attacks.
 It launches the gather_Pi.py script on the raspberry Pi and then for the duration of the data gathering, randomly 
@@ -65,6 +69,7 @@ compared to 32-bit Python on the Raspberry Pi. This Python script is intended to
 the same code as the Jupyter notebook to train a model then uses Python's joblib model to export the model for 
 persistence. The model is saved as "model.model"
 
+### Actual DOS Detection Programs for Raspberry Pi
 #### detect.py
 This is a Python script that runs on the Raspberry Pi to detect attacks using threshold values for the features 
 calculated after the 15-second packet captures. We determined the threshold values by looking at the network data when 
@@ -74,6 +79,7 @@ under DOS attack and when running normally.
 This is a Python script that runs on the Raspberry Pi to detect attacks using the exported machine learning model from
 before.
 
+### Evaluating Attack and Countermeasures
 #### dos_effectiveness.py
 This is a Python script that runs on the host's computer and tries to visualize the effectiveness of the DOS attack
 by looking at the number of network packets sent in the attack, the time the server (running on the Raspberry Pi) takes 
@@ -86,6 +92,7 @@ countermeasures by looking at the time for the server to fail before and after c
 involve tweaking Linux network parameters on the Pi in /proc/sys/net/ipv4/ like tcp_max_syn_backlog, tcp_synack_retries 
 and tcp_syncookies.
 
+### Reverse TCP Data Collection
 #### ReverseTCP/reverseTCP_datacollection.py
 This is a Python script that runs on the Raspberry Pi. It gathers data about CPU utilization and memory utilization of 
 the Raspberry Pi using Python's psutil module while a ReverseTCP attack is occurring and under normal conditions and 
@@ -93,6 +100,7 @@ writes that to a csv file. The attack is launched by running a payload generated
 information about making a payload can be found 
 [here](https://www.offensive-security.com/metasploit-unleashed/msfvenom/)
 
+### Reverse TCP Detection with ML
 #### ReverseTCP/KNN.ipynb
 This is a Jupyter notebook that uses the data gathered above to train Machine Learning models for detecting Reverse TCP 
 attacks using k-Nearest Neighbours. It also includes some helpful visualizations for the data and the accuracy of the 
